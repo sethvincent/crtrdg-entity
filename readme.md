@@ -1,5 +1,5 @@
 # crtrdg entity
-> canvas animation using requestAnimationFrame
+> entity module for games
 
 ## Goals for the crtrdg gameloop:
 - Serve as a simple entity module that other modules can inherit
@@ -38,6 +38,8 @@ npm install -g browserify beefy
 ```
 // use crtrdg-gameloop for animating to the canvas with requestAnimationFrame.
 var Game = require('crtrdg-gameloop');
+
+// require crtrdg-entity
 var Entity = require('crtrdg-entity');
 
 // require the inherits module so we can make Player inherit from Entity.
@@ -95,11 +97,13 @@ player.on('draw', function(context){
 ```
 
 ## Purpose of `crtrdg`:
-Almost every javascript game / animation library I've found bundles things like requestAnimationFrame polyfill, gameloop, entities, abstract drawing methods, keyboard/mouse input, vector math, and more into one entangled library. If I don't like how the library handles just one of those 
+Almost every javascript game / animation library I've found bundles things like requestAnimationFrame polyfill, gameloop, entities, abstract drawing methods, keyboard/mouse input, vector math, and more into one entangled library. If I don't like how the library handles just one of those components, I'm stuck with dead library weight, and sometimes it's difficult to replace a library's methods.
+
+So what if each element of 2d games were broken up into it's own modules / repositories?
 
 With inspiration from voxel.js, crtrdg is a collection of javascript modules used for developing 2d games.
 
-As I learned more about node.js, the core events module, and browserify, I realized the ideal api for making simple 2d games could be based on node's events module.
+As I learned more about node.js, the core events module, and browserify, I realized the ideal api for making simple 2d games could be based on node's events module. So you'll see a lot of crtrdg modules exposing an api that includes `.on('some event', function(){})`, which seems to make a lot of sense for games.
 
 ## Other `crtrdg` modules:
 - [crtrdg-gameloop](http://github.com/sethvincent/crtrdg-gameloop)
