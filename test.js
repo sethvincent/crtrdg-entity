@@ -1,12 +1,18 @@
 var Game = require('crtrdg-gameloop');
-var Entity = require('./index');
 var inherits = require('inherits');
+var Entity = require('./index');
 
 var game = new Game({
   canvasId: 'game',
   width: '800',
   height: '400',
   backgroundColor: '#ff1f1f'
+});
+
+game.on('update', function(interval){
+  game.findEntity(player, function(inEntities, index){
+    console.log("In entities?", inEntities, index);
+  });
 });
 
 inherits(Player, Entity);
@@ -32,10 +38,11 @@ var player = new Player({
 }).addTo(game);
 
 player.on('update', function(interval){
-  console.log(this.position);
+  //console.log(this.position);
 });
 
 player.on('draw', function(context){
   context.fillStyle = this.color;
   context.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
 });
+

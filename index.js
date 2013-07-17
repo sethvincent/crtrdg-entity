@@ -16,6 +16,7 @@ Entity.prototype.addTo = function(game, fn){
   }
 
   this.game.entities.push(this);
+  this.game.findEntity = this.findEntity;
   this.initializeListeners();
 
   if (fn){
@@ -41,9 +42,25 @@ Entity.prototype.remove = function(){
   this.removeAllListeners('update');
   this.removeAllListeners('draw');
 
-  for (var i=0; i<this.game.entities.length; i++){
-    if (this.game.entities[i] === this) {
-      this.game.entities.splice(i, 1);
+  this.findEntity(this, function(inEntities, index){
+    if (inEntities){
+      this.game.entities.splice(index, 1);
+    }
+  })
+};
+
+Entity.prototype.findEntity = function(entity, callback){
+  var entities;
+
+  if (this.game === undefined){
+    entities = this.entities;
+  } else {
+    entities = this.game.entities;
+  }
+
+  for (var i=0; i<entities.length; i++){
+    if (entities[i] === entity) {
+      callback(true, i);
     }
   }
 };
