@@ -94,6 +94,15 @@ player.on('draw', function(context){
   context.fillStyle = this.color;
   context.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
 });
+
+// find an entity with `game.findEntity`, an alias for `Entity.prototype.findEntity`
+game.findEntity(player, function(exists, entities, index){
+  
+  // returns exists, a boolean,
+  // entities, the full array of entities,
+  // and index, the array index of the entity
+  console.log(exists, entities, index)
+})
 ```
 
 ## Purpose of `crtrdg`:

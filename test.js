@@ -37,8 +37,14 @@ var player = new Player({
   color: '#fff'
 }).addTo(game);
 
+var time = 0;
 player.on('update', function(interval){
   //console.log(this.position);
+  time += interval;
+  console.log(time)
+  if (time > 3000){
+    player.remove();
+  }
 });
 
 player.on('draw', function(context){

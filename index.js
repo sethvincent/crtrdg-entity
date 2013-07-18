@@ -28,13 +28,17 @@ Entity.prototype.addTo = function(game, fn){
 
 Entity.prototype.initializeListeners = function(){
   var self = this;
-
-  this.game.on('update', function(interval){
-    self.emit('update', interval)
-  });
   
-  this.game.on('draw', function(context){
-    self.emit('draw', context);
+  this.findEntity(this, function(exists, entities, index){
+    if (exists){
+      self.game.on('update', function(interval){
+        self.emit('update', interval)
+      });
+
+      self.game.on('draw', function(context){
+        self.emit('draw', context);
+      });
+    }
   });
 };
 
@@ -42,9 +46,9 @@ Entity.prototype.remove = function(){
   this.removeAllListeners('update');
   this.removeAllListeners('draw');
 
-  this.findEntity(this, function(inEntities, index){
-    if (inEntities){
-      this.game.entities.splice(index, 1);
+  this.findEntity(this, function(exists, entities, index){
+    if (exists){
+      entities.splice(index, 1);
     }
   })
 };
@@ -60,7 +64,7 @@ Entity.prototype.findEntity = function(entity, callback){
 
   for (var i=0; i<entities.length; i++){
     if (entities[i] === entity) {
-      callback(true, i);
+      callback(true, entities, i);
     }
   }
 };
