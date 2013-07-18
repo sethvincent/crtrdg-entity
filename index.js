@@ -19,6 +19,8 @@ Entity.prototype.addTo = function(game, fn){
   this.game.findEntity = this.findEntity;
   this.initializeListeners();
 
+  this.exists = true;
+
   if (fn){
     fn(this);
   }
@@ -43,6 +45,8 @@ Entity.prototype.initializeListeners = function(){
 };
 
 Entity.prototype.remove = function(){
+  this.exists = false;
+  
   this.removeAllListeners('update');
   this.removeAllListeners('draw');
 
@@ -50,7 +54,7 @@ Entity.prototype.remove = function(){
     if (exists){
       entities.splice(index, 1);
     }
-  })
+  });
 };
 
 Entity.prototype.findEntity = function(entity, callback){

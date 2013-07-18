@@ -10,9 +10,7 @@ var game = new Game({
 });
 
 game.on('update', function(interval){
-  game.findEntity(player, function(inEntities, index){
-    console.log("In entities?", inEntities, index);
-  });
+  console.log(player.exists);
 });
 
 inherits(Player, Entity);
