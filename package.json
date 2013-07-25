@@ -29,6 +29,7 @@
     "inherits": "~2.0.0"
   },
   "devDependencies": {
-    "crtrdg-gameloop": "0.0.1"
+    "crtrdg-gameloop": "0.0.1",
+    "aabb-2d": "0.0.0"
   }
 }

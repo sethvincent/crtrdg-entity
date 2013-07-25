@@ -1,5 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
+var aabb = require('aabb-2d');
 
 module.exports = Entity;
 inherits(Entity, EventEmitter);
@@ -8,7 +9,7 @@ function Entity(){
   return this;
 }
 
-Entity.prototype.addTo = function(game, fn){
+Entity.prototype.addTo = function(game){
   this.game = game || {};
 
   if (!this.game.entities){
@@ -18,12 +19,13 @@ Entity.prototype.addTo = function(game, fn){
   this.game.entities.push(this);
   this.game.findEntity = this.findEntity;
   this.initializeListeners();
+  this.setBoundingBox();
+
+  this.on('update', function(interval){
+    this.setBoundingBox();
+  });
 
   this.exists = true;
-
-  if (fn){
-    fn(this);
-  }
 
   return this;
 };
@@ -71,4 +73,8 @@ Entity.prototype.findEntity = function(entity, callback){
       callback(true, entities, i);
     }
   }
+};
+
+Entity.prototype.setBoundingBox = function(){
+  this.boundingBox = aabb([this.position.x, this.position.y], [this.size.x, this.size.y]);  
 };
