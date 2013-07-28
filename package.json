@@ -1,6 +1,6 @@
 {
   "name": "crtrdg-entity",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "entity module for crtrdg games",
   "main": "index.js",
   "scripts": {
