@@ -75,6 +75,10 @@ Entity.prototype.findEntity = function(entity, callback){
   }
 };
 
+Entity.prototype.touches = function(entity){
+  return this.boundingBox.intersects(entity.boundingBox);
+}
+
 Entity.prototype.setBoundingBox = function(){
   this.boundingBox = aabb([this.position.x, this.position.y], [this.size.x, this.size.y]);  
 };

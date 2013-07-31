@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "crtrdg-gameloop": "0.0.1",
-    "aabb-2d": "0.0.0"
+    "aabb-2d": "0.0.0",
+    "crtrdg-keyboard": "0.0.2"
   }
 }
