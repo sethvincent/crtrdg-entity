@@ -76,7 +76,12 @@ Entity.prototype.findEntity = function(entity, callback){
 };
 
 Entity.prototype.touches = function(entity){
-  return this.boundingBox.intersects(entity.boundingBox);
+  if (entity.exists){
+    return this.boundingBox.intersects(entity.boundingBox);
+  }
+  else {
+    return false;
+  }
 }
 
 Entity.prototype.setBoundingBox = function(){
