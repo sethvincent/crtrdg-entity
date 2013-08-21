@@ -26,11 +26,11 @@
   },
   "license": "MIT",
   "dependencies": {
+    "aabb-2d": "~0.0.0",
     "inherits": "~2.0.0"
   },
   "devDependencies": {
-    "crtrdg-gameloop": "0.0.1",
-    "aabb-2d": "0.0.0",
-    "crtrdg-keyboard": "0.0.2"
+    "crtrdg-gameloop": "~0.0.1",
+    "crtrdg-keyboard": "~0.0.2"
   }
 }
