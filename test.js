@@ -4,14 +4,19 @@ var inherits = require('inherits');
 var Entity = require('./index');
 
 var game = new Game({
-  canvasId: 'game',
+  canvas: 'game',
   width: '800',
-  height: '400',
-  backgroundColor: '#ff1f1f'
+  height: '400'
 });
 
 game.on('update', function(interval){
   console.log(player.exists);
+});
+
+game.on('draw', function(c){
+  console.log(player.exists);
+  c.fillStyle = '#de2a2e';
+  c.fillRect(0, 0, game.width, game.height);
 });
 
 var keyboard = new Keyboard(game);
