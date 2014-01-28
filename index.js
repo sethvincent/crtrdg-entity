@@ -5,26 +5,17 @@ var aabb = require('aabb-2d');
 module.exports = Entity;
 inherits(Entity, EventEmitter);
 
-function Entity(){
-  return this;
-}
+function Entity(){}
 
 Entity.prototype.addTo = function(game){
   this.game = game || {};
 
-  if (!this.game.entities){
-    this.game.entities = [];
-  }
+  if (!this.game.entities) this.game.entities = [];
 
   this.game.entities.push(this);
   this.game.findEntity = this.findEntity;
   this.initializeListeners();
   this.setBoundingBox();
-
-  this.on('update', function(interval){
-    this.setBoundingBox();
-  });
-
   this.exists = true;
 
   return this;
@@ -36,6 +27,7 @@ Entity.prototype.initializeListeners = function(){
   this.findEntity(this, function(exists, entities, index){
     if (exists){
       self.game.on('update', function(interval){
+        self.setBoundingBox();
         self.emit('update', interval)
       });
 
@@ -53,20 +45,15 @@ Entity.prototype.remove = function(){
   this.removeAllListeners('draw');
 
   this.findEntity(this, function(exists, entities, index){
-    if (exists){
-      entities.splice(index, 1);
-    }
+    if (exists) entities.splice(index, 1);
   });
 };
 
 Entity.prototype.findEntity = function(entity, callback){
   var entities;
 
-  if (this.game === undefined){
-    entities = this.entities;
-  } else {
-    entities = this.game.entities;
-  }
+  if (this.game === undefined) entities = this.entities;
+  else entities = this.game.entities;
 
   for (var i=0; i<entities.length; i++){
     if (entities[i] === entity) {
@@ -76,12 +63,8 @@ Entity.prototype.findEntity = function(entity, callback){
 };
 
 Entity.prototype.touches = function(entity){
-  if (entity.exists){
-    return this.boundingBox.intersects(entity.boundingBox);
-  }
-  else {
-    return false;
-  }
+  if (entity.exists) return this.boundingBox.intersects(entity.boundingBox);
+  else return false;
 }
 
 Entity.prototype.setBoundingBox = function(){
