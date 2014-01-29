@@ -9,17 +9,30 @@ var game = new Game({
   height: '400'
 });
 
-game.on('update', function(interval){
+game.on('start', function(){
+  game.findEntity(player, function(exists, entities, i){
+    console.log(exists, entities, i);
+  });
   console.log(player.exists);
 });
 
+game.on('update', function(interval){ });
+
 game.on('draw', function(c){
-  console.log(player.exists);
   c.fillStyle = '#de2a2e';
   c.fillRect(0, 0, game.width, game.height);
 });
 
 var keyboard = new Keyboard(game);
+
+keyboard.on('keydown', function(key){
+  if (key === 'D'){
+    player.remove();
+    game.findEntity(player, function(exists, entities, i){
+      console.log(exists, entities, i);
+    });
+  }
+});
 
 inherits(Player, Entity);
 
@@ -50,24 +63,25 @@ Player.prototype.move = function(){
 };
 
 Player.prototype.input = function(keyboard){
-  if ('A' in keyboard.keysDown){
+  if ('<left>' in keyboard.keysDown){
     this.velocity.x = -this.speed;
   }
 
-  if ('D' in keyboard.keysDown){
+  if ('<right>' in keyboard.keysDown){
     this.velocity.x = this.speed;
   }
 
-  if ('W' in keyboard.keysDown){
+  if ('<up>' in keyboard.keysDown){
     this.velocity.y = -this.speed;
   }
 
-  if ('S' in keyboard.keysDown){
+  if ('<down>' in keyboard.keysDown){
     this.velocity.y = this.speed;
   }
 };
 
 var player = new Player({
+  game: game,
   position: { x: 10, y: 10 },
   size: { x: 10, y: 10 },
   color: '#fff'
@@ -82,45 +96,9 @@ player.on('update', function(interval){
   this.move();
   this.velocity.x = 0;
   this.velocity.y = 0;
-
-  if(player.touches(box)){
-    box.remove();
-    console.log('oh, they touched.');
-  }
 });
 
 player.on('draw', function(context){
   context.fillStyle = this.color;
   context.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
 });
-
-inherits(Box, Entity);
-
-function Box(options){
-  this.position = { 
-    x: options.position.x, 
-    y: options.position.y 
-  };
-
-  this.size = {
-    x: options.size.x,
-    y: options.size.y
-  };
-
-  this.color = options.color
-}
-
-var box = new Box({
-  position: { x: 100, y: 100 },
-  size: { x: 10, y: 10 },
-  color: '#fff'
-});
-
-box.on('draw', function(context){
-  context.fillStyle = this.color;
-  context.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
-});
-
-box.addTo(game);
-
-console.log(box);

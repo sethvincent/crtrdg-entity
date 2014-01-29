@@ -1,6 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
-var aabb = require('aabb-2d');
 
 module.exports = Entity;
 inherits(Entity, EventEmitter);
@@ -12,10 +11,11 @@ Entity.prototype.addTo = function(game){
 
   if (!this.game.entities) this.game.entities = [];
 
+  console.log(this.game, this.game.entities)
+
   this.game.entities.push(this);
   this.game.findEntity = this.findEntity;
   this.initializeListeners();
-  this.setBoundingBox();
   this.exists = true;
 
   return this;
@@ -27,7 +27,6 @@ Entity.prototype.initializeListeners = function(){
   this.findEntity(this, function(exists, entities, index){
     if (exists){
       self.game.on('update', function(interval){
-        self.setBoundingBox();
         self.emit('update', interval)
       });
 
@@ -39,39 +38,31 @@ Entity.prototype.initializeListeners = function(){
 };
 
 Entity.prototype.remove = function(){
-  this.exists = false;
-  
   this.removeAllListeners('update');
   this.removeAllListeners('draw');
 
   this.findEntity(this, function(exists, entities, index){
     if (exists) entities.splice(index, 1);
   });
+
+  this.exists = false;
 };
 
 Entity.prototype.findEntity = function(entity, callback){
+  var exists = false;
   var entities;
+  if (this.game) entities = this.game.entities;
+  else entities = this.entities
+  var index;
 
-  if (this.game === undefined) entities = this.entities;
-  else entities = this.game.entities;
-
-  for (var i=0; i<entities.length; i++){
-    if (entities[i] === entity) {
-      callback(true, entities, i);
+  if (entities){
+    for (var i=0; i<entities.length; i++){
+      if (entities[i] === entity) {
+        exists = true;
+        index = i;
+      }
     }
   }
-};
 
-Entity.prototype.touches = function(entity){
-  if (entity.exists) return this.boundingBox.intersects(entity.boundingBox);
-  else return false;
-}
-
-Entity.prototype.overlap = function(entity){
-  if (entity.exists) return this.boundingBox.union(entity.boundingBox);
-  else return false;
-}
-
-Entity.prototype.setBoundingBox = function(){
-  this.boundingBox = aabb([this.position.x, this.position.y], [this.size.x, this.size.y]);  
+  callback(exists, entities, index);
 };
