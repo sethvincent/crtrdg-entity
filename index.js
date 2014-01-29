@@ -67,6 +67,11 @@ Entity.prototype.touches = function(entity){
   else return false;
 }
 
+Entity.prototype.overlap = function(entity){
+  if (entity.exists) return this.boundingBox.union(entity.boundingBox);
+  else return false;
+}
+
 Entity.prototype.setBoundingBox = function(){
   this.boundingBox = aabb([this.position.x, this.position.y], [this.size.x, this.size.y]);  
 };
