@@ -9,6 +9,11 @@ function Entity(){}
 Entity.prototype.addTo = function(game){
   this.game = game || {};
 
+  if (!this.game.layers) this.game.layers = [0];
+  if (this.layer) {
+    this.insertInOrder(this.game.layers, this.layer);
+  }
+
   if (!this.game.entities) this.game.entities = [];
 
   console.log(this.game, this.game.entities)
@@ -21,6 +26,18 @@ Entity.prototype.addTo = function(game){
   return this;
 };
 
+Entity.prototype.insertInOrder = function(array, value){
+  for (var i=0; i<array.length; i++){
+    if (value === array[i]) {
+      return;
+    } else if (value < array[i]) {
+      array.splice(i, 0, value);
+      return;
+    }
+  }
+  array.push(value);
+};
+
 Entity.prototype.initializeListeners = function(){
   var self = this;
   
@@ -30,8 +47,10 @@ Entity.prototype.initializeListeners = function(){
         self.emit('update', interval)
       });
 
-      self.game.on('draw', function(context){
-        self.emit('draw', context);
+      self.game.on('draw-layer', function(layer, context){
+        if (layer === (self.layer || 0)) {
+          self.emit('draw', context);
+        }
       });
     }
   });
