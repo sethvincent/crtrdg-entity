@@ -16,8 +16,6 @@ Entity.prototype.addTo = function(game){
 
   if (!this.game.entities) this.game.entities = [];
 
-  console.log(this.game, this.game.entities)
-
   this.game.entities.push(this);
   this.game.findEntity = this.findEntity;
   this.initializeListeners();
