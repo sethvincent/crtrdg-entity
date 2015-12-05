@@ -1,10 +1,10 @@
 {
   "name": "crtrdg-entity",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "entity module for crtrdg games",
   "main": "index.js",
   "scripts": {
-    "test": "beefy test.js:bundle.js --live"
+    "start": "budo example.js --live"
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "eventemitter2": "^0.4.14",
     "inherits": "~2.0.0"
   },
   "devDependencies": {
-    "crtrdg-gameloop": "~0.2.0",
-    "crtrdg-keyboard": "~0.0.2"
+    "budo": "^7.0.2",
+    "crtrdg-gameloop": "^1.0.0",
+    "crtrdg-keyboard": "0.0.2"
   }
 }
